@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Create an Account</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+			crossorigin="anonymous"
+		/>
+		<style>
+			.custom-card {
+				max-width: 400px;
+				margin: 0 auto;
+				margin-top: 40px;
+			}
+			.form-group {
+				position: relative;
+				margin-bottom: 2.2rem;
+			}
+			.form-group input {
+				width: 100%;
+				padding: 0.8rem;
+				border: 1px solid #ccc;
+			}
+			.form-group label {
+				position: absolute;
+				left: 1rem;
+				top: 0;
+				transition: top 0.2s ease, left 0.2s ease;
+				background-color: white;
+			}
+			.form-group input:focus + label,
+			.form-group input:valid + label {
+				top: -2rem;
+				left: 0;
+				font-size: 1.1rem;
+				background-color: transparent;
+			}
+			.custom-label1 {
+				margin-bottom: 0rem;
+				font-size: 1.1rem;
+			}
+			.custom-label {
+				margin-bottom: 1rem;
+				font-size: 1.1rem;
+			}
+		</style>
+	</head>
+	<body class="bg-light bg-gradient text-dark">
+		<div class="container mt-4">
+			<div class="card custom-card">
+				<div class="card-body">
+					<header>
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<h4>Create an Account</h4>
+								<p class="divider-text">
+									<span class="bg-light"></span>
+								</p>
+								<h6>Already have an account? <a href="/login">Login</a></h6>
+							</div>
+						</div>
+					</header>
+					<form name="myForm" onsubmit="submitForm(event)">
+						<div class="col-md-12 mt-4 form-group">
+							<input type="text" id="u_username" class="form-control" required />
+							<label for="u_username">Name</label>
+						</div>
+						<div class="col-md-12 mt-4 form-group">
+							<input type="text" id="u_emailid" class="form-control" required />
+							<label for="u_emailid">Email ID</label>
+							<div id="message4" class="form-text text-danger"></div>
+						</div>
+						<div class="col-md-12 mt-4">
+							<label for="u_dob" class="form-label custom-label1">Date of Birth :</label>
+							<input type="date" id="u_dob" class="form-control-md" required />
+						</div>
+						<div class="col-md-12 mt-4">
+							<label for="u_gender" class="form-label custom-label">Gender :</label>
+							<select id="u_gender" class="form-control-sm" required>
+								<option value="Select" selected>Select...</option>
+								<option value="Male">Male</option>
+								<option value="Female">Female</option>
+								<option value="Other">Other</option>
+							</select>
+						</div>
+						<div class="col-md-12 mt-4 form-group">
+							<input
+								name="enterPassword"
+								type="password"
+								id="u_password"
+								class="form-control"
+								required
+							/>
+							<label for="u_password">Enter Password</label>
+							<div id="message" class="form-text text-success"></div>
+							<div id="message2" class="form-text text-danger"></div>
+						</div>
+						<div class="col-md-12 mt-4 form-group">
+							<input type="password" id="u_rpassword" class="form-control" required />
+							<label for="u_rpassword">Re-enter Password</label>
+							<div id="message3" class="form-text text-danger"></div>
+						</div>
+						<div class="col-md-12 mt-4">
+							<button class="btn btn-danger">Register</button>
+						</div>
+						<div id="password-match-message" class="col-md-12 text-danger"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script>
+			var message = document.getElementById('message');
+			var message2 = document.getElementById('message2');
+			var message3 = document.getElementById('message3');
+			var message4 = document.getElementById('message4');
+			var uPassword = document.myForm.u_password;
+			var uPassword2 = document.myForm.u_rpassword;
+			var uEmail = document.myForm.u_emailid;
+
+			function calculateAge(birthdate) {
+				const today = new Date();
+				const birthDate = new Date(birthdate);
+				let age = today.getFullYear() - birthDate.getFullYear();
+				const month = today.getMonth() - birthDate.getMonth();
+
+				if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+
+				return age;
+			}
+
+			function submitForm(event) {
+				event.preventDefault();
+
+				const uUsername = document.getElementById('u_username').value;
+				const uEmail = document.getElementById('u_emailid').value;
+				const uDob = document.getElementById('u_dob').value;
+				const uGender = document.getElementById('u_gender').value;
+				const uPassword = document.getElementById('u_password').value;
+
+				const age = calculateAge(uDob);
+				if (age < 13) {
+					clearMessages();
+					document.getElementById('password-match-message').textContent =
+						'You must be at least 13 years old to register!';
+					clearMessages();
+					return;
+				}
+
+				if (!runEmailCheck()) {
+					return;
+				}
+
+				if (!runPasswordCheck()) {
+					return;
+				}
+
+				const userData = {
+					username: uUsername,
+					emailid: uEmail,
+					dob: uDob,
+					gender: uGender,
+					password: uPassword,
+				};
+
+				fetch('/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(userData),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.message === 'User registered successfully') {
+							window.location.href = '/homepage';
+						} else if (data.message === 'Email is already registered') {
+							clearMessages();
+							document.getElementById('password-match-message').textContent =
+								'Email is already registered!';
+						} else {
+							alert(data.message);
+							document.getElementById('password-match-message').textContent =
+								'Error registering user!';
+						}
+					})
+					.catch((error) => {
+						document.getElementById('password-match-message').textContent =
+							'Error submitting the form!';
+					});
+			}
+
+			function runEmailCheck() {
+				var emailRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+				if (!emailRegex.test(uEmail.value)) {
+					message4.innerHTML = 'Invalid Email Address!';
+					return false;
+				} else {
+					message4.innerHTML = '';
+					return true;
+				}
+			}
+
+			function runPasswordCheck() {
+				var password = uPassword.value;
+				var rPassword = uPassword2.value;
+				var regex =
+					/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,}$/;
+
+				if (password.length < 8) {
+					clearMessages();
+					message2.innerHTML = 'Password must be at least 8 characters long!';
+					return false;
+				} else {
+					message2.innerHTML = '';
+
+					if (!regex.test(password)) {
+						clearMessages();
+						message2.innerHTML =
+							'Password must include a lowercase letter, an uppercase letter, a digit, and a special character!';
+						return false;
+					} else {
+						message.innerHTML = 'Strong Password!';
+					}
+				}
+
+				if (password !== rPassword) {
+					clearMessages();
+					message3.innerHTML = 'Passwords do not match!';
+					return false;
+				} else {
+					message3.innerHTML = '';
+					return true;
+				}
+			}
+
+			function clearMessages() {
+				message.innerHTML = '';
+				message2.innerHTML = '';
+				message3.innerHTML = '';
+				message4.innerHTML = '';
+			}
+		</script>
+	</body>
+</html>

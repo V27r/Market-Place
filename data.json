@@ -1,0 +1,146 @@
+[
+	{
+		"id": 0,
+		"productName": "Induction Cooktop",
+		"price": "5000",
+		"description": "A high-quality induction cooktop for fast cooking.",
+		"location": "Mumbai, India",
+		"date": "2023-11-04",
+		"image": ["uploads\\induction.jpg"]
+	},
+	{
+		"id": 1,
+		"productName": "Books Set",
+		"price": "800",
+		"description": "A collection of classic novels and bestsellers.",
+		"location": "New Delhi, India",
+		"date": "2023-11-05",
+		"image": ["uploads\\books.jpg"]
+	},
+	{
+		"id": 2,
+		"productName": "Cycle",
+		"price": "12000",
+		"description": "This is a brand-new cycle.",
+		"location": "Manipal, India",
+		"date": "2023-11-03",
+		"image": ["uploads\\cycle.jpeg-1699047500401-515830217.jpeg"]
+	},
+	{
+		"id": 3,
+		"productName": "Cloth Stand",
+		"price": "350",
+		"description": "A sturdy cloth stand for drying clothes.",
+		"location": "Bangalore, India",
+		"date": "2023-11-06",
+		"image": ["uploads\\cloth_stand.jpg"]
+	},
+	{
+		"id": 4,
+		"productName": "Smart Induction Cooktop",
+		"price": "4500",
+		"description": "A sleek and energy-efficient induction cooktop.",
+		"location": "Bangalore, India",
+		"date": "2023-11-07",
+		"image": ["uploads\\induction1.jpg"]
+	},
+	{
+		"id": 5,
+		"productName": "Portable Induction Stove",
+		"price": "3500",
+		"description": "Compact and easy-to-use portable induction stove.",
+		"location": "New Delhi, India",
+		"date": "2023-11-08",
+		"image": ["uploads\\induction2.jpg"]
+	},
+	{
+		"id": 6,
+		"productName": "Digital Induction Cooker",
+		"price": "5500",
+		"description": "Digital control induction cooker for precise cooking.",
+		"location": "Chennai, India",
+		"date": "2023-11-09",
+		"image": ["uploads\\induction3.jpg"]
+	},
+	{
+		"id": 7,
+		"productName": "Science Fiction Novels Books Set",
+		"price": "600",
+		"description": "A set of captivating science fiction novels.",
+		"location": "Chennai, India",
+		"date": "2023-11-10",
+		"image": ["uploads\\books1.jpg"]
+	},
+	{
+		"id": 8,
+		"productName": "Mystery and Thriller Books",
+		"price": "400",
+		"description": "A collection of thrilling mystery books.",
+		"location": "Mumbai, India",
+		"date": "2023-11-11",
+		"image": ["uploads\\books2.jpg"]
+	},
+	{
+		"id": 9,
+		"productName": "Classic Literature Books",
+		"price": "750",
+		"description": "An assortment of classic literature masterpieces.",
+		"location": "New Delhi, India",
+		"date": "2023-11-12",
+		"image": ["uploads\\books3.jpg"]
+	},
+	{
+		"id": 10,
+		"productName": "Kids Cycle",
+		"price": "3500",
+		"description": "A colorful bicycle for children to enjoy riding.",
+		"location": "Chennai, India",
+		"date": "2023-11-15",
+		"image": ["uploads\\cycle3.jpg"]
+	},
+	{
+		"id": 11,
+		"productName": "Foldable Cloth-Stand",
+		"price": "300",
+		"description": "A space-saving foldable clothes drying rack.",
+		"location": "Bangalore, India",
+		"date": "2023-11-16",
+		"image": ["uploads\\cloth_stand1.jpg"]
+	},
+	{
+		"id": 12,
+		"productName": "Stainless Steel Cloth-Stand",
+		"price": "400",
+		"description": "A durable stainless steel cloth stand for drying laundry.",
+		"location": "Mumbai, India",
+		"date": "2023-11-17",
+		"image": ["uploads\\cloth_stand2.jpg"]
+	},
+	{
+		"id": 13,
+		"productName": "Wooden Cloth-Stand",
+		"price": "250",
+		"description": "A stylish wooden clothes rack for your garments.",
+		"location": "Chennai, India",
+		"date": "2023-11-18",
+		"image": ["uploads\\cloth_stand3.jpg"]
+	},
+	{
+		"id": 14,
+		"productName": "Kettle",
+		"price": "2300",
+		"description": "A brand new kettle.",
+		"location": "Bangalore, India",
+		"date": "2023-11-12",
+		"image": ["uploads\\kettle.jpg"]
+	},
+	{
+		"productName": "Electric Kettle",
+		"price": "1800",
+		"description": "This kettle is two months old. It has 5 months of warranty left!",
+		"location": "Manipal, India.",
+		"date": "2023-11-04",
+		"image": ["uploads\\download.jpeg-1699084869886-997323170.jpeg"],
+		"id": 15
+	}
+]

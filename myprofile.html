@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>My Profile</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<link rel="stylesheet" href="styles2.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+		/>
+	</head>
+	<body>
+		<div class="container my-5">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="profile-picture">
+						<img id="profileImage" src="placeholder-image.jpg" alt="Your Name" />
+						<input type="file" id="imageInput" accept="image/*" style="display: none" />
+						<button class="btn btn-secondary" id="uploadImageBtn" onclick="uploadImage()">
+							Upload Profile Image
+						</button>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<h1 id="userName">{%NAME%}</h1>
+					<p class="text-muted" id="sellerLocation">
+						Seller | <a href="#" id="mapLink" target="_blank">{%LOCATION%}</a>
+					</p>
+					<div class="contact-info">
+						<div id="personal-info">
+							<p>Gender: <span id="gender">{%GENDER%}</span></p>
+							<p>Age: <span id="age">30</span></p>
+							<p>Date of Birth: <input type="date" id="dob" onchange="updateAge()" /></p>
+							<p>
+								Social Media:
+								<a href="#" id="facebookLink" target="_blank"
+									><i class="fab fa-facebook"></i
+								></a>
+								<a href="#" id="twitterLink" target="_blank"
+									><i class="fab fa-twitter"></i
+								></a>
+								<a href="#" id="instagramLink" target="_blank"
+									><i class="fab fa-instagram"></i
+								></a>
+							</p>
+						</div>
+					</div>
+					<div class="edit-button">
+						<button class="btn btn-primary" id="editBtn" onclick="enableEdit()">
+							Edit
+						</button>
+						<button class="btn btn-success" id="saveBtn" onclick="saveChanges()">
+							Save
+						</button>
+						<button class="btn btn-danger" id="clearBtn" onclick="clearAllFields()">
+							Clear All
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function loadUserData() {
+				document.getElementById('userName').textContent =
+					localStorage.getItem('userName') || 'Your Name';
+				const sellerLocation = document.getElementById('sellerLocation');
+				sellerLocation.textContent =
+					localStorage.getItem('sellerLocation') || 'Seller | Location';
+				document.getElementById('gender').textContent =
+					localStorage.getItem('gender') || 'Male';
+				document.getElementById('age').textContent = localStorage.getItem('age') || '30';
+				const dob = document.getElementById('dob');
+				dob.value = localStorage.getItem('dob') || '';
+				updateAge();
+
+				const profileImage = document.getElementById('profileImage');
+				const savedImageData = localStorage.getItem('profileImage');
+				if (savedImageData) {
+					profileImage.src = savedImageData;
+				}
+			}
+			function clearAllFields() {
+				const infoElements = document.querySelectorAll('#personal-info span');
+				infoElements.forEach((element) => {
+					element.textContent = '';
+				});
+
+				const userName = document.getElementById('userName');
+				userName.textContent = 'Your Name';
+
+				const sellerLocation = document.getElementById('sellerLocation');
+				sellerLocation.textContent = 'Seller | Location';
+
+				const dob = document.getElementById('dob');
+				dob.value = '';
+
+				localStorage.removeItem('userName');
+				localStorage.removeItem('sellerLocation');
+				localStorage.removeItem('gender');
+				localStorage.removeItem('age');
+				localStorage.removeItem('dob');
+				localStorage.removeItem('profileImage');
+			}
+			function enableEdit() {
+				const infoElements = document.querySelectorAll('#personal-info span');
+				infoElements.forEach((element) => {
+					const input = document.createElement('input');
+					input.value = element.textContent;
+					element.textContent = '';
+					element.appendChild(input);
+				});
+
+				const userName = document.getElementById('userName');
+				const userNameText = userName.textContent;
+				const userNameInput = document.createElement('input');
+				userNameInput.value = userNameText;
+				userName.textContent = '';
+				userName.appendChild(userNameInput);
+
+				const sellerLocation = document.getElementById('sellerLocation');
+				const sellerLocationText = sellerLocation.textContent;
+				const sellerLocationInput = document.createElement('input');
+				sellerLocationInput.value = sellerLocationText;
+				sellerLocation.textContent = '';
+				sellerLocation.appendChild(sellerLocationInput);
+
+				document.getElementById('editBtn').style.display = 'none';
+				document.getElementById('saveBtn').style.display = 'block';
+			}
+
+			function saveChanges() {
+				const infoElements = document.querySelectorAll('#personal-info span');
+				infoElements.forEach((element) => {
+					const input = element.querySelector('input');
+					element.textContent = input.value;
+				});
+
+				const userName = document.getElementById('userName');
+				const userNameInput = userName.querySelector('input');
+				userName.textContent = userNameInput.value;
+
+				const sellerLocation = document.getElementById('sellerLocation');
+				const sellerLocationInput = sellerLocation.querySelector('input');
+				sellerLocation.textContent = sellerLocationInput.value;
+
+				document.getElementById('editBtn').style.display = 'block';
+				document.getElementById('saveBtn').style.display = 'none';
+
+				localStorage.setItem('userName', document.getElementById('userName').textContent);
+				localStorage.setItem('sellerLocation', sellerLocation.textContent);
+				localStorage.setItem('gender', document.getElementById('gender').textContent);
+				localStorage.setItem('age', document.getElementById('age').textContent);
+				localStorage.setItem('dob', document.getElementById('dob').value);
+
+				const profileImage = document.getElementById('profileImage');
+				const canvas = document.createElement('canvas');
+				const context = canvas.getContext('2d');
+				canvas.width = profileImage.width;
+				canvas.height = profileImage.height;
+				context.drawImage(profileImage, 0, 0, canvas.width, canvas.height);
+				localStorage.setItem('profileImage', canvas.toDataURL('image/jpeg'));
+
+				document.getElementById('editBtn').style.display = 'block';
+				document.getElementById('saveBtn').style.display = 'none';
+			}
+
+			function openCalendar() {
+				const dobInput = document.getElementById('dob');
+				dobInput.click();
+			}
+
+			function updateAge() {
+				const dobInput = document.getElementById('dob');
+				const selectedDate = new Date(dobInput.value);
+				const today = new Date();
+				const age = today.getFullYear() - selectedDate.getFullYear();
+				document.getElementById('age').textContent = age;
+			}
+
+			if (localStorage.getItem('userName')) {
+				document.getElementById('userName').textContent =
+					localStorage.getItem('userName');
+				const sellerLocation = document.getElementById('sellerLocation');
+				sellerLocation.textContent = localStorage.getItem('sellerLocation');
+				document.getElementById('gender').textContent = localStorage.getItem('gender');
+				document.getElementById('age').textContent = localStorage.getItem('age');
+				const dob = document.getElementById('dob');
+				dob.value = localStorage.getItem('dob');
+				updateAge();
+			}
+
+			document.getElementById('mapLink').href =
+				'https://www.google.com/maps?q=' + localStorage.getItem('sellerLocation');
+
+			function uploadImage() {
+				const imageInput = document.getElementById('imageInput');
+				imageInput.click();
+				imageInput.addEventListener('change', function () {
+					const profileImage = document.getElementById('profileImage');
+					const file = imageInput.files[0];
+					if (file) {
+						const reader = new FileReader();
+						reader.onload = function (e) {
+							profileImage.src = e.target.result;
+						};
+						reader.readAsDataURL(file);
+					}
+				});
+			}
+			loadUserData();
+		</script>
+	</body>
+</html>
